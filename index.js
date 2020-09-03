@@ -1,12 +1,12 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-const Greetings = require('./greetings');
+const greetFactory = require('./greetings');
 
 const app = express();
-const greetings = Greetings();
+const greetings = greetFactory();
 
-app.engine('handlebars', exphbs());
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 app.use(express.static('public'));
@@ -20,6 +20,15 @@ app.get('/', function (req, res) {
     res.render('index', {
 
     });
+});
+
+app.post('/greetings', function (req, res) {
+//button
+greetFactory.setTheName({
+    theName: req.body.theName
+});
+console.log(greetings.getTheName());
+res.redirect('/');
 });
 
 app.get('/greeted', function (req, res) {

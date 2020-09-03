@@ -58,9 +58,13 @@
 
 module.exports = function greetFactory() {
 
-    var theNames = [];
+    let theNames = [];
 
     function setTheName(name) {
+
+        if (theNames === "") {
+            return "please enter your name";
+        }
         if (theNames.includes(name)) {
             return "This name already exist";
         }
