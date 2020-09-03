@@ -1,0 +1,28 @@
+.container {
+    color: black;
+        background-color: cornsilk;
+		border: 3px solid rgb(110, 13, 110);
+		margin: 1em;
+		padding: 0.5em;
+  }
+
+.button {
+	margin: 1em;
+}
+
+.message {
+color: rgb(255, 0, 0);
+	margin: 0.5em;
+
+}
+
+.textbox, .counter {
+display: inline;
+}
+
+@media(min-width: 1024px) {
+	.container {
+		width: 80%;
+		margin: auto;
+	}
+}
