@@ -1,30 +1,49 @@
-<div class="row" style="background-color: blue;">
+<div class="row">
     <h1>Greetings</h1>
 
     <div class="message"></div>
 
     <div class="error"></div>
+    <div class="textBox"></div>
 
     <div class="textbox">
-        <form action="/greetings" method="POST"> <strong>Name: </strong>
-            <input type="text" class="nameEntered" placeholder="enter name">
-        </form>
+        <form action="/" method="POST">
+            <strong>Name: </strong>
+            <input type="text" name="nameEntered" class="nameEntered" placeholder="enter name">
+            <div class="counter">{{count}}</div>
     </div>
 
     <div class="radioGreet">
-        <form action="/greetings" method="POST">
-            <input type="radio" name="language" value="English">English
-            <!-- <input type="radio" name="language" value="Afrikaans">Afrikaans -->
-            <input type="radio" name="language" value="IsiXhosa">IsiXhosa
-            <input type="radio" name="language" value="IsiZulu">IsiZulu
-            <input type="radio" name="language" value="Venda">Venda
-        </form>
+        <input type="radio" name="language" value="English">English
+        <!-- <input type="radio" name="language" value="Afrikaans">Afrikaans -->
+        <input type="radio" name="language" value="IsiXhosa">IsiXhosa
+        <input type="radio" name="language" value="IsiZulu">IsiZulu
+        <input type="radio" name="language" value="Venda">Venda
     </div>
-
-    <div class="counter"></div>
 
     <div>
         <button type="submit" class="greetUpdate">greet me</button>
     </div>
 
+    {{!-- {{#if messages.info}}
+        <div class="entry">
+            <h1> {{messages.info}}</h1>
+        </div>
+        {{/if}} --}}
+
+    </form>
+
+    <br>
+
+    <div>
+        <a href="/greeted">
+            <button type="submit" class="greeted">greeted</button>
+        </a>
+    </div>
+
+    <br>
+
+    <div>
+        <button type="submit {{reset}}" class="greetReset">reset</button>
+    </div>
 </div>

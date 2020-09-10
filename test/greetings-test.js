@@ -4,74 +4,54 @@ let greetFactory = require("../greetings");
 describe("Greetings exercise", function () {
     it("should be able to set names", function () {
         let greetings = greetFactory();
-
+        //var theMessage = greetings.theLanguage('English', 'Nwabisa')
         greetings.setTheName("Nwabisa");
+        greetings.setTheName("Sino");
+        greetings.setTheName("Mvelo");
+        greetings.setTheName("Yanela");
+        greetings.setTheName("Unalo");
 
-        assert.equal("Nwabisa", greetings.getTheName());
-
-    })
-
-    it("should be able to get names", function () {
-        let greetings = greetFactory();
-
-        greetings.getTheName();
-
-        assert.equal(name, greetings.getTheName());
+        assert.equal(5,greetings.getTheName());
 
     })
 
     it("should be able to greet a person in English", function () {
         let greetings = greetFactory();
-
-        greetings.theLanguage();
-
-        assert.equal("Greetings, Nwabisa", greetings.theLanguage("English", "Nwabisa"));
-
+        var theMessage = greetings.theLanguage('English', 'Nwabisa')
+    
+        assert.equal(theMessage, "Greetings, Nwabisa");
     })
-
-
-    // it("should be able to greet a person in Afrikaans", function () {
-    //     let greetings = greetFactory();
-
-    //     greetings.theLanguage();
-
-    //     assert.equal("Hallo, Nwabisa", greetings.theLanguage("Afrikaans", "Nwabisa"));
-
-    // })
 
     it("should be able to greet a person in IsiXHosa", function () {
         let greetings = greetFactory();
-
-        greetings.theLanguage();
-
-        assert.equal("Molo, Nwabisa", greetings.theLanguage("IsiXhosa", "Nwabisa"));
-
+        var theMessage = greetings.theLanguage('IsiXhosa', 'Nwabisa')
+    
+        assert.equal(theMessage, "Molo, Nwabisa");
     })
 
     it("should be able to greet a person in IsiZulu", function () {
         let greetings = greetFactory();
-
-        greetings.theLanguage();
-
-        assert.equal("Sawubona, Nwabisa", greetings.theLanguage("IsiZulu", "Nwabisa"));
-
+        var theMessage = greetings.theLanguage('IsiZulu', 'Nwabisa')
+    
+        assert.equal(theMessage, "Sawubona, Nwabisa");
     })
 
     it("should be able to greet a person in Venda", function () {
         let greetings = greetFactory();
-
-        greetings.theLanguage();
-
-        assert.equal("Ndaa, Nwabisa", greetings.theLanguage("Venda", "Nwabisa"));
-
+        var theMessage = greetings.theLanguage('Venda', 'Nwabisa')
+    
+        assert.equal(theMessage, "Ndaa, Nwabisa");
     })
 
-    // it("should count how many names have been entered", function (){
-    //     let greetings = greetFactory();
+    it("should count how many names have been entered", function () {
+        let greetings = greetFactory();
 
-    //     greetings.counter();
-    //    // greetings.counter();
+        greetings.setTheName("Greetings, Nwabisa");
+        greetings.setTheName("Molo, Nwabisa");
+        greetings.setTheName("Ndaa, Nwabisa");
+        greetings.setTheName("Sawubona, Nwabisa");
+        greetings.setTheName("Sawubona, Unalo");
 
-    //     assert.equal("Nwabisa", greetings.counter());
-    // })
+        assert.equal(5, greetings.counter());
+    })
 });
