@@ -46,12 +46,14 @@ describe("Greetings exercise", function () {
     it("should count how many names have been entered", function () {
         let greetings = greetFactory();
 
-        greetings.setTheName("Greetings, Nwabisa");
-        greetings.setTheName("Molo, Nwabisa");
-        greetings.setTheName("Ndaa, Nwabisa");
-        greetings.setTheName("Sawubona, Nwabisa");
-        greetings.setTheName("Sawubona, Unalo");
+        greetings.setTheName("Andre");
+        greetings.setTheName("Nwabisa");
+        greetings.setTheName("Vhudi");
+        greetings.setTheName("Bongani");
+        greetings.setTheName("Unalo");
+        greetings.setTheName("Mvelo");
 
-        assert.equal(5, greetings.counter());
+
+        assert.equal(6, greetings.counter()); 
     })
 });

@@ -1,41 +1,32 @@
-module.exports = function greetFactory() {
+module.exports = function greetFactory(pool) {
+    //let namesList = {}
+    async function setTheName(nameList) {
+        // if (namesList[name] === undefined) {
+        //     namesList[name] = 0;
+        // }
+        //await namesList.query('insert')
+        //sql
+        var check = await pool.query('select name from greeting where name = $1', [nameList]);
+       // console.log(check);
+        return check;
 
-    // var objectKeys = Object.keys(people);
-    // var objectEntries = Object.entries(people);
-    let namesList = {
-        //    // const namesList = {
-        //         unalo: 3,
-        //         nwabisa: 2,
-        //         sino: 1,
-        //      // }
-    }
-    function setTheName(name) {
-        if (namesList[name] === undefined) {
-            namesList[name] = 0;
-        }
-        namesList[name]++
+        //  namesList[name]++
     }
 
     function getTheName() {
-        return namesList;
+     var list = pool.query('select * from greeting');
+     return list;
     }
 
-    function countForOne(forOne) {  //count for one person
-        return namesList[forOne];
-        //         for (count in people){
-        // console.log(`key = ${count} vaue = ${people[count]}`)
-        //         }
-        //     //       const keys = Object.keys(namesList)
-        //     //     for (const [namesList, count] of entries) {
-        //     //         console.log(`you have greeted ${namesList} ${count} times`)
-        //     //       }
-
-        //     //       // Result
-        //     //     // you have greeted unalo 3 times
-        //     //     // you have greeted nwabisa 2 times
-        //     //     // you have greeted sino 1 times
-        //     //    // return username;
+    async function insert(names) {
+        var inserting = pool.query('insert into greeting (name, counter) values ($1, $2)', [names, 1])
+       // console.log(names)
+        return inserting;
     }
+
+    // function countForOne(forOne) {  //count for one person
+    //     return pool.query('insert into greeting (names, counter) values ($1, $2)', [{ username }, 1])[forOne];
+    // }
 
     function errorMessage(languageClicked, theNames) {
         var message = '';
@@ -48,20 +39,14 @@ module.exports = function greetFactory() {
         return message;
     }
 
-    function theLanguage(languageClicked, theNames) {
-        // if (languageClicked === '') {
-        //     return "choose your home language";
-        // }
+    async function theLanguage(languageClicked, theNames) {
 
-        // if (theNames === '') {
-
-        if (languageClicked === 'English') {
-            return "Greetings, " + theNames;
+        var myNames = await setTheName(theNames);
+        if (myNames.rowCount > 0) {
+            await update(theNames);
+        } else {
+            await insert(theNames);
         }
-
-        // if (languageClicked === 'Afrikaans') {
-        //     return "Hallo, " + theNames;
-        // }
 
         if (languageClicked === 'IsiXhosa') {
             return "Molo, " + theNames;
@@ -75,10 +60,11 @@ module.exports = function greetFactory() {
             return "Ndaa, " + theNames;
         }
     }
-    //}
 
-    function counter() {
-        return Object.keys(namesList).length;
+    async function update(updated) {
+        var updating = await pool.query('update greeting set counter=counter+1 where name=$1', [updated]);
+        //console.log(updated)
+        return updating;
     }
 
     // function reset() {
@@ -90,9 +76,12 @@ module.exports = function greetFactory() {
         setTheName,
         getTheName,
         theLanguage,
-        counter,
+        // counter,
         errorMessage,
-        countForOne
+        // countForOne,
+        insert,
+        update
+        //  dataNames
         //reset
     }
 }
