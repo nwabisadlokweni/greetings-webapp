@@ -20,8 +20,8 @@ if (process.env.DATABASE_URL && !local) {
 const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/greeting';
 
 const pool = new Pool({
-    connectionString,
-    ssl: useSSL
+    connectionString
+    // ssl: useSSL
 });
 
 const greetings = greetFactory(pool);
@@ -85,10 +85,6 @@ app.post('/', async function (req, res) {
 app.get('/greeted', function (req, res) {
     res.render('greeted', { greeted: greetings.getTheName() });
 });
-
-// app.get('/counter/user_name', function (req, res) {
-
-// });
 
 app.get('/greeted/:username', function (req, res) {
     const username = req.params.username;

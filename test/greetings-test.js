@@ -25,46 +25,49 @@ describe('The basic database web app', function () {
         let greetings = greetFactory(pool);
         await greetings.insert("Nwabisa");
         await greetings.insert("Zola");
+        await greetings.insert("Unalo");
+        await greetings.insert("Sino");
+        await greetings.insert("Makho");
+        await greetings.insert("Andre");
         var name = await greetings.counter();
 
         //let greet = await greetFactory.all();
-        assert.equal(2, name);
+        assert.equal(6, name);
 
     });
-    after(function () {
+
+    it('should count how many names have been entered on the db test', async function(){
+        // the Factory Function is called greetFactory
+        let greetings = greetFactory(pool);
+        await greetings.insert("Zola");
+        await greetings.insert("Zola");
+        await greetings.insert("nwabisa");
+        await greetings.insert("Zola");
+        var name = await greetings.counter();
+
+        //let greet = await greetFactory.all();
+        assert.equal(4, name);
+
+    });
+    after(function(){
         pool.end();
     })
 
-    // it('should pass the db test', async function(){
-
-    //     // the Factory Function is called greetFactory
-    //     let greetings = greetFactory(pool);
-    //     await greetings.insert("Nwabisa");
-    //     var name = await greetings.counter();
-
-    //     //let greet = await greetFactory.all();
-    //     assert.equal(1, name);
-
-    // });
-    // after(function(){
-    //     pool.end();
-    // })
-
 });
 
-describe("Greetings exercise", function () {
-    it("should be able to set names", function () {
-        let greetings = greetFactory();
-        //var theMessage = greetings.theLanguage('English', 'Nwabisa')
-        greetings.setTheName("Nwabisa");
-        greetings.setTheName("Sino");
-        greetings.setTheName("Mvelo");
-        greetings.setTheName("Yanela");
-        greetings.setTheName("Unalo");
+// describe("Greetings exercise", function () {
+//     it("should be able to set names", function () {
+//         let greetings = greetFactory();
+//         //var theMessage = greetings.theLanguage('English', 'Nwabisa')
+//         greetings.setTheName("Nwabisa");
+//         greetings.setTheName("Sino");
+//         greetings.setTheName("Mvelo");
+//         greetings.setTheName("Yanela");
+//         greetings.setTheName("Unalo");
 
-        assert.equal(5, greetings.getTheName());
+//         assert.equal(5, greetings.getTheName());
 
-    })
+//     })
 
     //     it("should be able to greet a person in English", function () {
     //         let greetings = greetFactory();
@@ -107,4 +110,4 @@ describe("Greetings exercise", function () {
 
     //         assert.equal(6, greetings.counter()); 
     //     })
-});
+//});
