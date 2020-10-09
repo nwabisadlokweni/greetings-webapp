@@ -10,18 +10,11 @@ const Pool = pg.Pool;
 
 const app = express();
 
-// should we use a SSL connection
-let useSSL = false;
-let local = process.env.LOCAL || false;
-if (process.env.DATABASE_URL && !local) {
-    useSSL = true;
-}
 // which db connection to use
 const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/greeting';
 
 const pool = new Pool({
     connectionString
-    // ssl: useSSL
 });
 
 const greetings = greetFactory(pool);
