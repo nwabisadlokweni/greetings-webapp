@@ -7,20 +7,20 @@ module.exports = function greetFactory(pool) {
         //await namesList.query('insert')
         //sql
         var check = await pool.query('select name from greeting where name = $1', [nameList]);
-       // console.log(check);
+        // console.log(check);
         return check;
 
         //  namesList[name]++
     }
 
     function getTheName() {
-     var list = pool.query('select * from greeting');
-     return list;
+        var list = pool.query('select * from greeting');
+        return list;
     }
 
     async function insert(names) {
-        var inserting = pool.query('insert into greeting (name, counter) values ($1, $2)', [names, 1])
-       // console.log(names)
+        var inserting = await pool.query('insert into greeting (name, counter) values ($1, $2)', [names, 1])
+        // console.log(names)
         return inserting;
     }
 
@@ -31,7 +31,7 @@ module.exports = function greetFactory(pool) {
     function errorMessage(languageClicked, theNames) {
         var message = '';
         if (theNames === '') {
-            message = "please enter your name";
+            message = "Please enter your name";
         }
         else if (!languageClicked) {
             message = "choose your home language";
@@ -67,21 +67,26 @@ module.exports = function greetFactory(pool) {
         return updating;
     }
 
-    // function reset() {
-    //     delete from counter();
-    //     return "";
-    // }
+    async function counter() {
+        var counting = await pool.query('select * from greeting');
+        return counting.rowCount;
+    }
+
+    async function reset() {
+        var del = await pool.query('delete from greeting');
+        return del;
+    }
 
     return {
         setTheName,
         getTheName,
         theLanguage,
-        // counter,
+        counter,
         errorMessage,
         // countForOne,
         insert,
-        update
+        update,
         //  dataNames
-        //reset
+        reset
     }
 }

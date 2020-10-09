@@ -23,8 +23,8 @@ const pool = new Pool({
     connectionString,
     ssl: useSSL
 });
-const greetings = greetFactory(pool);
 
+const greetings = greetFactory(pool);
 
 app.engine('handlebars', exphbs({ layoutsDir: './views/layouts' }));
 app.set('view engine', 'handlebars');
@@ -38,22 +38,28 @@ app.use(bodyParser.json())
 //     secret: "please enter your name",
 //     resave: false,
 //     saveUninitialized: true
-// }));
+// }))
 // // initialise the flash middleware
 // app.use(flash());
 
-app.get('/', function (req, res) {
-    res.render('index');
+app.get('/', async function (req, res) {
+    res.render('index', { count: await greetings.counter() });
 });
 
 app.post('/', async function (req, res) {
     // greetings.setTheName(req.body.nameEntered);
-    var nameGreeted = await greetings.theLanguage(req.body.language, req.body.nameEntered);
-   //var error = greetings.errorMessage(req.body.language, req.body.nameEntered)
+
+    if (req.body.nameEntered && req.body.language) {
+        var nameGreeted = await greetings.theLanguage(req.body.language, req.body.nameEntered);
+        // await greetings.insert(req.body.nameEntered)
+    } else {
+        var error = greetings.errorMessage(req.body.language, req.body.nameEntered)
+    }
 
     res.render('index', {
-     //    message: (error === '') ? await greetings.theLanguage(req.body.language, req.body.nameEntered) : error,
-        count: greetings.insert(),
+        // message: (error === '') ? await greetings.theLanguage(req.body.language, req.body.nameEntered) : error,
+        error: error,
+        count: await greetings.counter(),
         // reset: greetings.reset()
         message: nameGreeted
     })
@@ -91,6 +97,10 @@ app.get('/greeted/:username', function (req, res) {
     res.render('greeted', { greetedName: `${username} has been greeted ${counting} times` });
 });
 
+app.get('/reset', async function (req, res) {
+    await greetings.reset()
+    res.redirect('/');
+});
 
 const PORT = process.env.PORT || 3007;
 
