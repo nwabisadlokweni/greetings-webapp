@@ -16,9 +16,9 @@ describe('The basic database web app', function () {
     beforeEach(async function () {
         // clean the tables before each test run
         await pool.query("delete from greeting;");
-        //  await pool.query("delete from categories;");
     });
 
+    
     it('should insert names in the db test', async function () {
 
         // the Factory Function is called greetFactory

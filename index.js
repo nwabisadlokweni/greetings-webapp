@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const greetFactory = require('./greetings');
 //const flash = require('express-flash');
 //const session = require('express-session');
-const _=require("lodash")
+const _ = require("lodash")
 
 const pg = require("pg");
 const Pool = pg.Pool;
@@ -44,8 +44,8 @@ app.post('/', async function (req, res) {
     // greetings.setTheName(req.body.nameEntered);
     const name = _.capitalize(req.body.nameEntered)
 
-    console.log({name});
-    
+    console.log({ name });
+
     if (req.body.nameEntered && req.body.language) {
         var nameGreeted = await greetings.theLanguage(req.body.language, name);
         // await greetings.insert(req.body.nameEntered)
@@ -84,8 +84,8 @@ app.get('/greeted', async function (req, res) {
     const theNames = await greetings.getTheNames();
 
     console.log(theNames);
-    
-    res.render('greeted', { greeted:  theNames});
+
+    res.render('greeted', { greeted: theNames });
 });
 
 app.get('/greeted/:username', async function (req, res) {
