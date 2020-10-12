@@ -36,7 +36,7 @@ describe('The basic database web app', function () {
 
     });
 
-    it('should count how many names have been entered on the db test', async function(){
+    it('should count how many names have been entered on the db test', async function () {
         // the Factory Function is called greetFactory
         let greetings = greetFactory(pool);
         await greetings.insert("Zola");
@@ -49,10 +49,21 @@ describe('The basic database web app', function () {
         assert.equal(4, name);
 
     });
-    after(function(){
+
+    it('should return an error message on the db test', async function () {
+        // the Factory Function is called greetFactory
+        let greetings = greetFactory(pool);
+        var error = await greetings.errorMessage();
+
+        await greetings.errorMessage();
+
+        assert.equal("choose your home language", error);
+
+    });
+
+    after(function () {
         pool.end();
     })
-
 });
 
 // describe("Greetings exercise", function () {

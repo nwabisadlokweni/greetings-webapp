@@ -13,9 +13,9 @@ module.exports = function greetFactory(pool) {
         //  namesList[name]++
     }
 
-    function getTheName() {
-        var list = pool.query('select * from greeting');
-        return list;
+    async function getTheNames() {
+        var list = await pool.query('select * from greeting');
+        return list.rows;
     }
 
     async function insert(names) {
@@ -64,7 +64,7 @@ module.exports = function greetFactory(pool) {
     async function update(updated) {
         var updating = await pool.query('update greeting set counter=counter+1 where name=$1', [updated]);
         //console.log(updated)
-        return updating;
+        return updating.rowCount;
     }
 
     async function counter() {
@@ -79,7 +79,7 @@ module.exports = function greetFactory(pool) {
 
     return {
         setTheName,
-        getTheName,
+        getTheNames,
         theLanguage,
         counter,
         errorMessage,

@@ -1,8 +1,8 @@
 <div class="row">
     <h1>Greeted names: </h1>
     <ul>
-        {{#each greeted}}<a href="/greeted/{{@key}}">
-            <li>{{@key}} </li>
+        {{#each greeted}}<a href="/greeted/{{name}}">
+            <li>{{name}}</li>
         </a>
         {{/each}}
     </ul>
@@ -13,5 +13,5 @@
             <button type="submit" class="back">back</button>
         </a>
     </div>
-    
+
 </div>

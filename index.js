@@ -41,7 +41,7 @@ app.get('/', async function (req, res) {
 
 app.post('/', async function (req, res) {
     // greetings.setTheName(req.body.nameEntered);
-
+    
     if (req.body.nameEntered && req.body.language) {
         var nameGreeted = await greetings.theLanguage(req.body.language, req.body.nameEntered);
         // await greetings.insert(req.body.nameEntered)
@@ -75,15 +75,20 @@ app.post('/', async function (req, res) {
 //     res.redirect('/');
 // });
 
-app.get('/greeted', function (req, res) {
-    res.render('greeted', { greeted: greetings.getTheName() });
+app.get('/greeted', async function (req, res) {
+
+    const theNames = await greetings.getTheNames();
+
+    console.log(theNames);
+    
+    res.render('greeted', { greeted:  theNames});
 });
 
-app.get('/greeted/:username', function (req, res) {
+app.get('/greeted/:username', async function (req, res) {
     const username = req.params.username;
-    var counting = greetings.update(username);
+    var counting = await greetings.update(username);
 
-    res.render('greeted', { greetedName: `${username} has been greeted ${counting} times` });
+    res.render('greeted', await { greetedName: `${username} has been greeted ${counting} times` });
 });
 
 app.get('/reset', async function (req, res) {
