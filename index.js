@@ -44,7 +44,7 @@ app.post('/', async function (req, res) {
     // greetings.setTheName(req.body.nameEntered);
     const name = _.capitalize(req.body.nameEntered)
 
-    console.log({ name });
+    //console.log({ name });
 
     if (req.body.nameEntered && req.body.language) {
         var nameGreeted = await greetings.theLanguage(req.body.language, name);
@@ -83,7 +83,7 @@ app.get('/greeted', async function (req, res) {
 
     const theNames = await greetings.getTheNames();
 
-    console.log(theNames);
+   // console.log(theNames);
 
     res.render('greeted', { greeted: theNames });
 });
