@@ -1,15 +1,17 @@
 <div class="row">
     <h1>Greetings</h1>
+
     {{!-- 2<img src="greet.jpg" alt="NO PICTURE" width="500" height="333"> --}}
+
     <div class="message"></div>
 
     {{#if message}}
     <div class="textBox">{{message}}</div>
     {{else}}
-    <div class="textBox">{{error}}</div>
+    <div class="textBox"><p class='flash'> {{messages.error}}</p></div>
     {{/if}}
 
-    <div class="textbox">
+    <div class="textboxName">
         <form action="/" method="POST">
             <strong>Name: </strong>
             <input type="text" name="nameEntered" class="nameEntered" placeholder="enter name">
@@ -26,12 +28,8 @@
         <button type="submit" class="greetUpdate">greet me</button>
     </div>
 
-    {{!-- {{#if messages.info}}
-        <div class="entry">
-            <h1> {{messages.info}}</h1>
-        </div>
-        {{/if}} --}}
     <br>
+
     </form>
 
     <div>

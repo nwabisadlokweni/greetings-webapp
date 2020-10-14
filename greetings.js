@@ -1,16 +1,8 @@
 module.exports = function greetFactory(pool) {
-    //let namesList = {}
-    async function setTheName(nameList) {
-        // if (namesList[name] === undefined) {
-        //     namesList[name] = 0;
-        // }
-        //await namesList.query('insert')
-        //sql
-        var check = await pool.query('select name from greeting where name = $1', [nameList]);
-        // console.log(check);
-        return check;
 
-        //  namesList[name]++
+    async function setTheName(nameList) {
+        var check = await pool.query('select name from greeting where name = $1', [nameList]);
+        return check;
     }
 
     async function getTheNames() {
@@ -20,27 +12,21 @@ module.exports = function greetFactory(pool) {
 
     async function insert(names) {
         var inserting = await pool.query('insert into greeting (name, counter) values ($1, $2)', [names, 1])
-        // console.log(names)
         return inserting;
     }
 
-    // function countForOne(forOne) {  //count for one person
-    //     return pool.query('insert into greeting (names, counter) values ($1, $2)', [{ username }, 1])[forOne];
+    // function errorMessage(languageClicked, theNames) {
+    //     var message = '';
+    //     if (theNames === '') {
+    //         message = "Please enter your name";
+    //     }
+    //     else if (!languageClicked) {
+    //         message = " Please choose your home language";
+    //     }
+    //     return message;
     // }
 
-    function errorMessage(languageClicked, theNames) {
-        var message = '';
-        if (theNames === '') {
-            message = "Please enter your name";
-        }
-        else if (!languageClicked) {
-            message = "choose your home language";
-        }
-        return message;
-    }
-
     async function theLanguage(languageClicked, theNames) {
-
         var myNames = await setTheName(theNames);
         if (myNames.rowCount > 0) {
             await update(theNames);
@@ -63,7 +49,6 @@ module.exports = function greetFactory(pool) {
 
     async function update(updated) {
         var updating = await pool.query('update greeting set counter=counter+1 where name=$1', [updated]);
-        //console.log(updated)
         return updating.rowCount;
     }
 
@@ -82,11 +67,9 @@ module.exports = function greetFactory(pool) {
         getTheNames,
         theLanguage,
         counter,
-        errorMessage,
-        // countForOne,
+        // errorMessage,
         insert,
         update,
-        //  dataNames
         reset
     }
 }

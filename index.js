@@ -2,8 +2,8 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const greetFactory = require('./greetings');
-//const flash = require('express-flash');
-//const session = require('express-session');
+const flash = require('express-flash');
+const session = require('express-session');
 const _ = require("lodash")
 
 const pg = require("pg");
@@ -28,71 +28,59 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-// app.use(session({
-//     secret: "please enter your name",
-//     resave: false,
-//     saveUninitialized: true
-// }))
-// // initialise the flash middleware
-// app.use(flash());
+app.use(session({
+    secret: "fcsss",
+    resave: false,
+    saveUninitialized: true
+}))
+// initialise the flash middleware
+app.use(flash());
 
 app.get('/', async function (req, res) {
     res.render('index', { count: await greetings.counter() });
 });
 
 app.post('/', async function (req, res) {
-    // greetings.setTheName(req.body.nameEntered);
     const name = _.capitalize(req.body.nameEntered)
+    const lang = req.body.language
 
-    //console.log({ name });
-
-    if (req.body.nameEntered && req.body.language) {
-        var nameGreeted = await greetings.theLanguage(req.body.language, name);
-        // await greetings.insert(req.body.nameEntered)
-    } else {
-        var error = greetings.errorMessage(req.body.language, req.body.nameEntered)
+    if (!name) {
+        req.flash('error', "Please enter your name");
     }
-
+    else if (!lang) {
+        req.flash('error', " Please choose your home language");
+    } else {
+        var nameGreeted = await greetings.theLanguage(lang, name);
+        // if (req.body.nameEntered && req.body.language) {
+        //     var nameGreeted = await greetings.theLanguage(req.body.language, name);
+        // } else {
+        // //     var error = greetings.errorMessage(req.body.language, req.body.nameEntered)
+        // // }
+    }
     res.render('index', {
-        // message: (error === '') ? await greetings.theLanguage(req.body.language, req.body.nameEntered) : error,
-        error: error,
         count: await greetings.counter(),
-        // reset: greetings.reset()
         message: nameGreeted
     })
 });
 
-// app.get('/', function (req, res) {
-//     req.flash('info', 'Welcome');
-//     res.render('index', {
-//       title: 'Home'
-//     })
-//   });
-
-//   app.get('/addFlash', function (req, res) {
-//     req.flash('info', 'please enter your name');
-//     res.redirect('/');
-//   });
-
-// app.get('/the-route', function (req, res) {
-//     req.flash('info', 'Flash Message Added');
-//     res.redirect('/');
-// });
-
 app.get('/greeted', async function (req, res) {
-
     const theNames = await greetings.getTheNames();
-
-   // console.log(theNames);
-
     res.render('greeted', { greeted: theNames });
 });
 
-app.get('/greeted/:username', async function (req, res) {
+app.get('/counter/:username', async function (req, res) {
     const username = req.params.username;
-    var counting = await greetings.update(username);
-
-    res.render('greeted', await { greetedName: `${username} has been greeted ${counting} times` });
+    let namesList = {}
+    var counting = await greetings.getTheNames();
+    for (let i = 0; i < counting.length; i++) {
+        if (namesList[counting[i].name] === undefined) {
+            namesList[counting[i].name] = counting[i].counter
+        }
+    }
+    res.render('message', {
+        name: username,
+        count: namesList[username]
+    });
 });
 
 app.get('/reset', async function (req, res) {
