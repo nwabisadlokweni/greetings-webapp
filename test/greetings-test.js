@@ -48,16 +48,16 @@ describe('The basic database web app', function () {
         assert.equal(4, name);
     });
 
-    it('should return an error message on the db test', async function () {
-        // the Factory Function is called greetFactory
-        let greetings = greetFactory(pool);
-        var error = await greetings.errorMessage();
+    // it('should return an error message on the db test', async function () {
+    //     // the Factory Function is called greetFactory
+    //     let greetings = greetFactory(pool);
+    //     var error = await greetings.errorMessage();
 
-        await greetings.errorMessage();
+    //     await greetings.errorMessage();
 
-        assert.equal("choose your home language", error);
+    //     assert.equal("choose your home language", error);
 
-    });
+    // });
 
     after(function () {
         pool.end();
