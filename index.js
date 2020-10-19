@@ -51,11 +51,6 @@ app.post('/', async function (req, res) {
         req.flash('error', " Please choose your home language");
     } else {
         var nameGreeted = await greetings.theLanguage(lang, name);
-        // if (req.body.nameEntered && req.body.language) {
-        //     var nameGreeted = await greetings.theLanguage(req.body.language, name);
-        // } else {
-        // //     var error = greetings.errorMessage(req.body.language, req.body.nameEntered)
-        // // }
     }
     res.render('index', {
         count: await greetings.counter(),

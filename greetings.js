@@ -15,17 +15,6 @@ module.exports = function greetFactory(pool) {
         return inserting;
     }
 
-    // function errorMessage(languageClicked, theNames) {
-    //     var message = '';
-    //     if (theNames === '') {
-    //         message = "Please enter your name";
-    //     }
-    //     else if (!languageClicked) {
-    //         message = " Please choose your home language";
-    //     }
-    //     return message;
-    // }
-
     async function theLanguage(languageClicked, theNames) {
         var myNames = await setTheName(theNames);
         if (myNames.rowCount > 0) {
@@ -67,7 +56,6 @@ module.exports = function greetFactory(pool) {
         getTheNames,
         theLanguage,
         counter,
-        // errorMessage,
         insert,
         update,
         reset

@@ -34,7 +34,7 @@ describe('The basic database web app', function () {
         assert.equal(6, name);
     });
 
-    it('should count how many names have been entered on the db test', async function () {
+    it('should be able to insert names and get user counter', async function () {
         // the Factory Function is called greetFactory
         let greetings = greetFactory(pool);
 
@@ -43,21 +43,24 @@ describe('The basic database web app', function () {
         await greetings.insert("nwabisa");
         await greetings.insert("Zola");
 
-        var name = await greetings.counter();
+        var name = await greetings.update("Zola");
 
-        assert.equal(4, name);
+        assert.equal(3, name);
     });
 
-    // it('should return an error message on the db test', async function () {
-    //     // the Factory Function is called greetFactory
-    //     let greetings = greetFactory(pool);
-    //     var error = await greetings.errorMessage();
+    it('should be able to reset names on the database', async function () {
+        // the Factory Function is called greetFactory
+        let greetings = greetFactory(pool);
 
-    //     await greetings.errorMessage();
+        await greetings.reset("Zola");
+        await greetings.reset("Zola");
+        await greetings.reset("nwabisa");
+        await greetings.reset("Zola");
 
-    //     assert.equal("choose your home language", error);
+        var name = await greetings.counter();
 
-    // });
+        assert.equal(0, name);
+    });
 
     after(function () {
         pool.end();
