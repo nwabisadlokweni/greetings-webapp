@@ -2,9 +2,10 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const greetFactory = require('./greetings');
+const routeFactory = require('./routes');
 const flash = require('express-flash');
 const session = require('express-session');
-const _ = require("lodash")
+
 
 const pg = require("pg");
 const Pool = pg.Pool;
@@ -19,6 +20,7 @@ const pool = new Pool({
 });
 
 const greetings = greetFactory(pool);
+const routesInstance = routeFactory(greetings)
 
 app.engine('handlebars', exphbs({ layoutsDir: './views/layouts' }));
 app.set('view engine', 'handlebars');
@@ -36,52 +38,15 @@ app.use(session({
 // initialise the flash middleware
 app.use(flash());
 
-app.get('/', async function (req, res) {
-    res.render('index', { count: await greetings.counter() });
-});
+app.get('/', routesInstance.index)
 
-app.post('/', async function (req, res) {
-    const name = _.capitalize(req.body.nameEntered)
-    const lang = req.body.language
+app.post('/', routesInstance.greet)
 
-    if (!name) {
-        req.flash('error', "Please enter your name");
-    }
-    else if (!lang) {
-        req.flash('error', " Please choose your home language");
-    } else {
-        var nameGreeted = await greetings.theLanguage(lang, name);
-    }
-    res.render('index', {
-        count: await greetings.counter(),
-        message: nameGreeted
-    })
-});
+app.get('/greeted', routesInstance.getNames)
 
-app.get('/greeted', async function (req, res) {
-    const theNames = await greetings.getTheNames();
-    res.render('greeted', { greeted: theNames });
-});
+app.get('/counter/:username', routesInstance.getCounter)
 
-app.get('/counter/:username', async function (req, res) {
-    const username = req.params.username;
-    let namesList = {}
-    var counting = await greetings.getTheNames();
-    for (let i = 0; i < counting.length; i++) {
-        if (namesList[counting[i].name] === undefined) {
-            namesList[counting[i].name] = counting[i].counter
-        }
-    }
-    res.render('message', {
-        name: username,
-        count: namesList[username]
-    });
-});
-
-app.get('/reset', async function (req, res) {
-    await greetings.reset()
-    res.redirect('/');
-});
+app.get('/reset', routesInstance.resetDb)
 
 const PORT = process.env.PORT || 3007;
 

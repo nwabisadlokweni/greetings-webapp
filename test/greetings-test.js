@@ -48,6 +48,27 @@ describe('The basic database web app', function () {
         assert.equal(3, name);
     });
 
+    it('should be able to greet in IsiXhosa', async function () {
+        // the Factory Function is called greetFactory
+        let greetings = greetFactory(pool);
+
+        assert.equal('Molo, Namhla', await greetings.theLanguage("IsiXhosa", "Namhla"));
+    });
+
+    it('should be able to greet in IsiZulu', async function () {
+        // the Factory Function is called greetFactory
+        let greetings = greetFactory(pool);
+
+        assert.equal('Sawubona, Zola', await greetings.theLanguage("IsiZulu", "Zola"));
+    });
+
+    it('should be able to greet in Venda', async function () {
+        // the Factory Function is called greetFactory
+        let greetings = greetFactory(pool);
+
+        assert.equal('Ndaa, Sinovuyo', await greetings.theLanguage("Venda", "Sinovuyo"));
+    });
+
     it('should be able to reset names on the database', async function () {
         // the Factory Function is called greetFactory
         let greetings = greetFactory(pool);
